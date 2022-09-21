@@ -19,14 +19,18 @@ function App() {
     for (let i = 1; i <= size; i++) {
       for (let j = 1; j <= size; j++) {
         if ((i % 2 == 0 && j % 2 != 0) || ( i % 2 != 0 && j % 2 == 0)) {
-          if(i == 2 || i == 7)
-          tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "p" });
+          if(i == 7)
+          tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "wp" });
+          else if (i == 2)
+          tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "bp" });
           else
           tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "" });
           
         } else {
-          if(i == 2 || i == 7)
-          tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "p" });
+          if(i == 7)
+          tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "wp" });
+          else if (i == 2)
+          tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "bp" });
           else
           tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "" });
         }
@@ -45,15 +49,16 @@ function App() {
   }
   function handleClick(value) {
     console.log(value + " was clicked");
+    console.log("CURRENT PIECE TEST: " + currentPiece)
     if(pieceSelected){
-      if(pieceToMove != value && divInfo[value].piece == "" ){ // update this to check for if square contains same color piece as player currently moving aka friendly fire
+      if(pieceToMove != value && (divInfo[value].piece == "" || divInfo[value].piece[0] != divInfo[pieceToMove].piece[0])){ // update this to check for if square contains same color piece as player currently moving aka friendly fire
       updateDivInfo(pieceToMove, value);
-      document.getElementById(value).style.backgroundImage=`url(${currentPiece})`;
-      document.getElementById(value).style.backgroundSize= 'cover';
-      document.getElementById(value).style.backgroundPosition= "center";
+      // document.getElementById(value).style.backgroundImage=`${currentPiece}`;
+      // document.getElementById(value).style.backgroundSize= 'cover';
+      // document.getElementById(value).style.backgroundPosition= "center";
 
 
-      document.getElementById(pieceToMove).style.backgroundImage="none";
+      // document.getElementById(pieceToMove).style.backgroundImage="none";
       }
       // document.getElementById(pieceToMove).style.backgroundBlendMode= 'soft-light';
 
@@ -66,7 +71,8 @@ function App() {
     setPieceToMove(value);
     // document.getElementById(value).style.backgroundBlendMode= "color-dodge";
     setPieceSelected(true);
-    setCurrentPiece(document.getElementById(value).getElementsByTagName('img'));
+    setCurrentPiece(document.getElementById(value).style.backgroundImage);
+    console.log("IMAGE TEST: " + document.getElementById(value).style.backgroundImage);
 
     }
   }
@@ -79,16 +85,32 @@ function App() {
     setDivInfo(tempArray);
   }
 
+  function randomizePawns(){
+    let tempArray = divInfo;
+    for(let i = 0 ; i < tempArray.length; i++){
+      if(Math.floor(Math.random() * 2) == 1)
+      tempArray[i] = { name: (tempArray[i].name), row: (tempArray[i].row), column: (tempArray[i].column), piece: "wp" }
+      else
+      tempArray[i] = { name: (tempArray[i].name), row: (tempArray[i].row), column: (tempArray[i].column), piece: "" }
+
+
+    }
+    setDivInfo(tempArray);
+
+    console.log("TEST RANDO");
+
+  }
+
   function createDivs(html, name, index, row, col, piece){
-    console.log("R/C TEST: " + row + " " + col)
+    // console.log("R/C TEST: " + row + " " + col)
       const ele = document.createElement('div');
       ele.id = index;
-      if(row == 7 && initial || piece =="p"){
+      if(row == 7 && initial || piece =="wp"){
         ele.style.backgroundImage=`url(${whitePawn})`;
         ele.style.backgroundSize= 'cover';
         ele.style.backgroundPosition= "center";
       }
-      if(row == 2 && initial){
+      if(row == 2 && initial || piece == "bp"){
         ele.style.backgroundImage=`url(${pawn})`;
         ele.style.backgroundSize= 'cover';
         ele.style.backgroundPosition= "right";
@@ -96,6 +118,7 @@ function App() {
       else {
       ele.innerHTML = html;
       }
+
       if(pieceToMove == index)
       ele.style.border="dashed";
       else
@@ -127,8 +150,9 @@ function App() {
 
   useEffect(() => {
     document.querySelector(".App-chessboard").innerHTML = "";
+
     makeBoard()
-  }, [divInfo, pieceSelected, pieceToMove])
+  }, [divInfo, pieceSelected, pieceToMove, currentPiece])
 
   return (
     <div style={{ margin: "200px", justifyContent: "center" }}>
@@ -140,7 +164,7 @@ function App() {
       <div className="App-chessboard">
 
       </div>
-
+    <button style={{}} onClick={() => randomizePawns()}>DO NOT CLICK</button>
     </div>
   );
 }
