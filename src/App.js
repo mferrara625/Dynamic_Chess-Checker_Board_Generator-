@@ -7,6 +7,11 @@ import blackRook from './Assets/blackRook.jpg';
 import whiteRook from './Assets/whiteRook.jpg';
 import blackBishop from './Assets/blackBishop.jpg';
 import whiteBishop from './Assets/whiteBishop.jpg';
+import blackQueen from './Assets/blackQueen.jpg';
+import whiteQueen from './Assets/whiteQueen.jpg';
+import blackKnight from './Assets/blackKnight.jpg';
+import whiteKnight from './Assets/whiteKnight.jpg';
+
 
 
 
@@ -40,6 +45,12 @@ function App() {
             tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "bb" });
           else if (i == 8 && j == 3)
             tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "wb" });
+          else if (i == 1 && j == 4)
+            tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "bq" });
+          else if (i == 1 && j == 2)
+            tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "bn" });
+          else if (i == 8 && j == 7)
+            tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "wn" });
           else
             tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "" });
 
@@ -56,6 +67,13 @@ function App() {
             tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "bb" });
           else if (i == 8 && j == 6)
             tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "wb" });
+          else if (i == 8 && j == 4)
+            tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "wq" });
+          else if (i == 1 && j == 7)
+            tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "bn" });
+          else if (i == 8 && j == 2)
+            tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "wn" });
+          
           else
             tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "" });
         }
@@ -106,6 +124,26 @@ function App() {
     }
     if (piece == "wb") {
       ele.style.backgroundImage = `url(${whiteBishop})`;
+      ele.style.backgroundSize = 'cover';
+      ele.style.backgroundPosition = "right";
+    }
+    if (piece == "bq") {
+      ele.style.backgroundImage = `url(${blackQueen})`;
+      ele.style.backgroundSize = 'cover';
+      ele.style.backgroundPosition = "right";
+    }
+    if (piece == "wq") {
+      ele.style.backgroundImage = `url(${whiteQueen})`;
+      ele.style.backgroundSize = 'cover';
+      ele.style.backgroundPosition = "right";
+    }
+    if (piece == "bn") {
+      ele.style.backgroundImage = `url(${blackKnight})`;
+      ele.style.backgroundSize = 'cover';
+      ele.style.backgroundPosition = "right";
+    }
+    if (piece == "wn") {
+      ele.style.backgroundImage = `url(${whiteKnight})`;
       ele.style.backgroundSize = 'cover';
       ele.style.backgroundPosition = "right";
     }
@@ -195,7 +233,7 @@ function App() {
       }
 
     }
-    if (divInfo[spaceNum].piece[1] == "r") {
+    if (divInfo[spaceNum].piece[1] == "r" || divInfo[spaceNum].piece[1] == "q") {
 
       if(currentPlayer == "b"){
 
@@ -295,7 +333,7 @@ function App() {
     }
     
     }
-    if(divInfo[spaceNum].piece[1] == "b"){
+    if(divInfo[spaceNum].piece[1] == "b" || divInfo[spaceNum].piece[1] == "q"){
 
       // down right (b) / up left (w)
       for(let i = 1; i <= size; i++){
@@ -360,6 +398,27 @@ function App() {
           break;
         }
       }
+    }
+
+    // KNIGHT
+
+    if (divInfo[spaceNum].piece[1] == "n") {
+
+       for(let i = 0; i < divInfo.length; i++){
+        if(divInfo[i].row == (divInfo[spaceNum].row + 2) || divInfo[i].row == (divInfo[spaceNum].row - 2)){
+          if((divInfo[i].column == (divInfo[spaceNum].column + 1) || divInfo[i].column == (divInfo[spaceNum].column - 1))){
+            if(divInfo[i].piece[0] != currentPlayer)
+            tempArray.push(i);
+          }
+        }
+        if(divInfo[i].row == (divInfo[spaceNum].row + 1) || divInfo[i].row == (divInfo[spaceNum].row - 1)){
+          if((divInfo[i].column == (divInfo[spaceNum].column + 2) || divInfo[i].column == (divInfo[spaceNum].column - 2))){
+            if(divInfo[i].piece[0] != currentPlayer)
+            tempArray.push(i);
+          }
+        }
+       }
+
     }
   
     setSinglePieceMoves(tempArray);
