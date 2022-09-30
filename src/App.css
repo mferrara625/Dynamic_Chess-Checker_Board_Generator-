@@ -10,8 +10,8 @@
   gap: 1px;
 }
 .App-item-white-tile {
-  height: 100px;
-  width: 100px;
+  height: 75px;
+  width: 75px;
   grid-column: 1;
   grid-row: 1;
   border-width: 1px;
@@ -19,8 +19,8 @@
   border-color: #000000;
 }
 .App-item-black-tile {
-  height: 100px;
-  width: 100px;
+  height: 75px;
+  width: 75px;
   grid-column: 2;
   grid-row: 1;
   border-width: 1px;

@@ -25,6 +25,12 @@ function App() {
   const [singlePieceMoves, setSinglePieceMoves] = useState([]);
   const [currentPlayer, setCurrentPlayer] = useState("w");
   const [isFlipped, setIsFlipped] = useState(false);
+  const [random, setRandom] = useState(false);
+  const [allMoves, setAllMoves] = useState([]);
+
+  const delay = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
 
 
 
@@ -179,6 +185,32 @@ function App() {
 
 
     return ele;
+  }
+  
+  function generateMove(){
+    let randomNumber = Math.floor(Math.random() * 64);
+    console.log("RAND NUMB: " + randomNumber);
+    if(divInfo[randomNumber].piece[0] != currentPlayer){
+    generateMove();
+    }
+    else{
+    handleClick(randomNumber);
+    setRandom(true);
+    }
+  }
+
+  function finishMove(){
+    if(singlePieceMoves.length <= 0){
+      
+      generateMove()
+      }
+      else{ 
+      let move = Math.floor(Math.random() * singlePieceMoves.length);
+      console.log("RAND NUMB MOVE: " + move);
+      console.log("RAND NUMB MOVE SPACE RESULT: " + singlePieceMoves[move]);
+  
+      handleClick(singlePieceMoves[move]);
+      }
   }
 
   function handleClick(value) {
@@ -420,8 +452,9 @@ function App() {
        }
 
     }
-  
+
     setSinglePieceMoves(tempArray);
+    setAllMoves([...allMoves, tempArray]);
 
   }
 
@@ -434,6 +467,8 @@ function App() {
       setCurrentPlayer("b")
     else
       setCurrentPlayer("w");
+
+    setAllMoves([]);
 
   }
 
@@ -450,6 +485,15 @@ function App() {
     console.log("LIL FLIP");
   }
 
+  function findAllMoves(){
+    for(let i = 0; i < divInfo.length; i++){
+      if(divInfo[i].piece[0] == currentPlayer){
+        console.log(491);
+        findAvailableMoves(i);
+      }
+    }
+  }
+
 
   useEffect(() => {
     setDivInfo([])
@@ -459,9 +503,20 @@ function App() {
 
   useEffect(() => {
     document.querySelector(".App-chessboard").innerHTML = "";
+    // if(random == true){
+    //   setRandom(false)
+    //   finishMove()
+    // }
 
     makeBoard()
   }, [divInfo, isPieceSelected, spaceSelected, currentPlayer, isFlipped])
+
+  useEffect(() => {
+if(random == true){
+      setRandom(false)
+      finishMove()
+    }
+  }, [isPieceSelected])
 
   return (
     <div style={{ margin: "200px", justifyContent: "center" }}>
@@ -475,6 +530,13 @@ function App() {
       </div>
       <button style={{}} onClick={() => flipBoard()}>Flip Board</button>
       <button style={{}} onClick={() => flipView()}>Flip Board View</button>
+      <button style={{}} onClick={() => generateMove()}>Generate Move</button>
+      <button style={{}} onClick={() => finishMove()}>Finish Move</button>
+      <button style={{}} onClick={() => findAllMoves()}>Find All Moves</button>
+      <button style={{}} onClick={() => console.log("ALL MOVES: " + allMoves)}>Log Moves</button>
+
+
+
 
 
     </div>
