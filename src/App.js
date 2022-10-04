@@ -452,9 +452,8 @@ function App() {
        }
 
     }
-
     setSinglePieceMoves(tempArray);
-    setAllMoves([...allMoves, tempArray]);
+    setAllMoves(current => [...current, tempArray]);
 
   }
 
@@ -485,13 +484,15 @@ function App() {
     console.log("LIL FLIP");
   }
 
-  function findAllMoves(){
+  const findAllMoves = () => {
     for(let i = 0; i < divInfo.length; i++){
       if(divInfo[i].piece[0] == currentPlayer){
         console.log(491);
         findAvailableMoves(i);
       }
     }
+    console.log("MOVE TEST: " + allMoves)
+
   }
 
 
