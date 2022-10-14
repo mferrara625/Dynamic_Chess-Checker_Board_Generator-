@@ -11,7 +11,8 @@ import blackQueen from './Assets/blackQueen.jpg';
 import whiteQueen from './Assets/whiteQueen.jpg';
 import blackKnight from './Assets/blackKnight.jpg';
 import whiteKnight from './Assets/whiteKnight.jpg';
-
+import blackKing from './Assets/blackKing.jpg';
+import whiteKing from './Assets/whiteKing.jpg';
 
 
 
@@ -57,6 +58,8 @@ function App() {
             tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "bn" });
           else if (i == 8 && j == 7)
             tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "wn" });
+          else if (i == 8 && j == 5)
+            tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "wk" });
           else
             tempArray.push({ name: "App-item-black-tile", row: (i), column: (j), piece: "" });
 
@@ -79,6 +82,8 @@ function App() {
             tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "bn" });
           else if (i == 8 && j == 2)
             tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "wn" });
+          else if (i == 1 && j == 5)
+            tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "bk" });
           
           else
             tempArray.push({ name: "App-item-white-tile", row: (i), column: (j), piece: "" });
@@ -150,6 +155,16 @@ function App() {
     }
     if (piece == "wn") {
       ele.style.backgroundImage = `url(${whiteKnight})`;
+      ele.style.backgroundSize = 'cover';
+      ele.style.backgroundPosition = "right";
+    }
+    if (piece == "bk") {
+      ele.style.backgroundImage = `url(${blackKing})`;
+      ele.style.backgroundSize = 'cover';
+      ele.style.backgroundPosition = "right";
+    }
+    if (piece == "wk") {
+      ele.style.backgroundImage = `url(${whiteKing})`;
       ele.style.backgroundSize = 'cover';
       ele.style.backgroundPosition = "right";
     }
